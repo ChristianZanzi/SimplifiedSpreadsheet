@@ -10,7 +10,7 @@
 
 class Avg : public Formula{
 public:
-    double calculate(std::vector<double> operands) override;
+    double calculate() override;
 };
 
 

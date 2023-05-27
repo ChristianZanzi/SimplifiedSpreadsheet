@@ -6,13 +6,15 @@
 #define SIMPLIFIEDSPREADSHEET_CELL_H
 
 #include "Formula.h"
+#include <string>
+#include <vector>
 
 class Cell {
 public:
     Cell();
     void setValue(double v);
     double getValue();
-    void setFormula(Formula* formula);
+    void setFormula(int fType, std::vector<Cell*> &involvedCells);
 
 private:
     double value;

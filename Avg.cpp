@@ -4,10 +4,10 @@
 
 #include "Avg.h"
 
-double Avg::calculate(std::vector<double> operands) {
+double Avg::calculate() {
     double result;
-    for (int i = 0; i < operands.size(); i++) {
-            result += operands[i];
+    for (double operand : getOperands()) {
+            result += operand;
     }
-    return result/operands.size();
+    return result/getOperands().size();
 }

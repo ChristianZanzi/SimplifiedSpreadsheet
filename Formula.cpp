@@ -13,7 +13,3 @@ void Formula::setOperands(const std::vector<double> &operands) {
     this->operands = operands;
 }
 
-double Formula::getResult() const {
-    return result;
-}
-

@@ -4,11 +4,11 @@
 
 #include "Max.h"
 
-double Max::calculate(std::vector<double> operands) {
+double Max::calculate() {
     double result;
-    for (int i = 0; i < operands.size(); i++) {
-        if (result < operands[i])
-            result = operands[i];
+    for (double operand : getOperands()) {
+        if (result < operand)
+            result = operand;
     }
     return result;
 }

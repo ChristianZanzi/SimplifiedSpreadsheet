@@ -5,26 +5,24 @@
 #ifndef SIMPLIFIEDSPREADSHEET_FORMULA_H
 #define SIMPLIFIEDSPREADSHEET_FORMULA_H
 
-#include <list>
+#include <vector>
 
 class Formula {
 public:
     Formula();
     virtual ~Formula() = default;
 
-    virtual double calculate(std::list<double> operands) = 0;
+    virtual double calculate() = 0;
 
-    const std::list<double> &getOperands() const;
+    const std::vector<double> &getOperands() const;
 
-    void setOperands(const std::list<double> &operands);
+    void setOperands(const std::vector<double> &operands);
 
-    double getResult() const;
 
     //TODO: creare i metodi per aggiungere operandi alla lista
     //TODO: il costruttore dovrebbe ricevere una stringa contenente dei caratteri e dovrebbe essere in grado di creare una lista di operandi da esssa
 private:
-    std::list<double> operands;
-    double result;
+    std::vector<double> operands;
 };
 
 

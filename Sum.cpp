@@ -5,9 +5,9 @@
 #include "Sum.h"
 
 
-double Sum::calculate(std::vector<double> operands) {
+double Sum::calculate() {
     double result = 0;
-    for (double operand : operands) {
+    for (double operand : getOperands()) {
         result += operand;
     }
     return result;
