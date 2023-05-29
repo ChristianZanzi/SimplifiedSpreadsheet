@@ -12,6 +12,7 @@
 
 void Cell::setValue(double v) {
     value = v;
+    notify();
 }
 
 double Cell::getValue() {
@@ -21,6 +22,7 @@ double Cell::getValue() {
 void Cell::setFormula(int fType, std::vector<Cell*> &involvedCells) {
     std::vector<double> cellsValues;
     for (auto &involvedCell : involvedCells) {
+        involvedCell->subscribe(this);
         cellsValues.push_back(involvedCell->getValue());
     }
     switch(fType){
@@ -48,4 +50,30 @@ void Cell::setFormula(int fType, std::vector<Cell*> &involvedCells) {
             std::cout << "errore";
             break;
     }
+}
+
+void Cell::subscribe(Observer *o) {
+    observers.push_back(o);
+}
+
+void Cell::unsubscribe(Observer *o) {
+    observers.remove(o);
+}
+
+void Cell::notify() {
+    for (auto itr = std::begin(observers); itr != std::end(observers); itr++) {
+        (*itr)->update();
+    }
+}
+
+void Cell::update() {
+    setValue(formula->calculate());
+}
+
+void Cell::attach() {
+
+}
+
+void Cell::detach() {
+
 }

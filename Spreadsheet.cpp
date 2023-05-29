@@ -65,5 +65,4 @@ void Spreadsheet::setCellFormula(int row, int column, std::string &formula) {
         std::cout << "errore, tipo della formula sbagliato";
     }
     matrix[row][column].setFormula(op, involvedCells);
-    //TODO rilasciare la memoria occuopata dalla lista
 }

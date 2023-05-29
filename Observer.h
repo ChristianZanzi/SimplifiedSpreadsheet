@@ -9,9 +9,7 @@
 class Observer {
 public:
     virtual ~Observer();
-    virtual void update(double value) = 0;
-    virtual void attach() = 0;
-    virtual void detach() = 0;
+    virtual void update() = 0;
 };
 
 Observer::~Observer() = default;
