@@ -11,25 +11,28 @@
 #include <string>
 #include <vector>
 #include <list>
+#include <memory>
 
 class Cell : public Subject, public Observer {
 public:
-    Cell();
-    void setValue(double v);
-    double getValue();
-    void setFormula(int fType, std::vector<Cell*> &involvedCells);
+    ~Cell() = default;
+    const double getValue() const;
+    void setValue(const double value);
+
+    const std::list<std::shared_ptr<Cell>>& getDependencies() const;
+    void setDependencies(const std::list<std::shared_ptr<Cell>>& dependencies);
+    void setFormula(int fType, std::list<std::shared_ptr<Cell>>& involvedCells, std::string f);
+    const std::shared_ptr<Formula>& getFormula() const;
 
     void subscribe(Observer* o) override;
     void unsubscribe(Observer* o) override;
     void notify() override;
-
-    void update();
-    void attach();
-    void detach();
+    void update() override;
 
 private:
     double value;
-    Formula* formula;
+    std::shared_ptr<Formula> formula;
+    std::list<std::shared_ptr<Cell>> dependencies;
     std::list<Observer*> observers;
 };
 

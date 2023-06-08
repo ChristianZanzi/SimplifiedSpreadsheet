@@ -4,12 +4,19 @@
 
 #include "Formula.h"
 
-
-const std::vector<double> &Formula::getOperands() const {
+const std::list<double>& Formula::getOperands() const {
     return operands;
 }
 
-void Formula::setOperands(const std::vector<double> &operands) {
+void Formula::setOperands(const std::list<double> &operands) {
     this->operands = operands;
+}
+
+const std::string &Formula::getDefinition() const {
+    return definition;
+}
+
+void Formula::setDefinition(const std::string &definition) {
+    Formula::definition = definition;
 }
 

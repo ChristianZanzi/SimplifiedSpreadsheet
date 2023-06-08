@@ -6,9 +6,8 @@
 #define SIMPLIFIEDSPREADSHEET_SUM_H
 
 #include "Formula.h"
-#include "vector"
 
-class Sum : public Formula {
+class Sum: public Formula {
 public:
     double calculate() override;
 

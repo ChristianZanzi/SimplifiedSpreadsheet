@@ -8,7 +8,7 @@
 
 #include "Formula.h"
 
-class Avg : public Formula{
+class Avg: public Formula{
 public:
     double calculate() override;
 };

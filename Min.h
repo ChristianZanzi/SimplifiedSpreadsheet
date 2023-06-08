@@ -8,7 +8,7 @@
 
 #include "Formula.h"
 
-class Min : public Formula {
+class Min: public Formula {
 public:
     double calculate() override;
 };

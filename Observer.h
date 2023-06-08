@@ -8,11 +8,10 @@
 
 class Observer {
 public:
-    virtual ~Observer();
+    virtual ~Observer() = default;
     virtual void update() = 0;
 };
 
-Observer::~Observer() = default;
 
 
 #endif //SIMPLIFIEDSPREADSHEET_OBSERVER_H

@@ -3,11 +3,11 @@
 //
 
 #include "Sum.h"
-
+#include <iostream>
 
 double Sum::calculate() {
     double result = 0;
-    for (double operand : getOperands()) {
+    for (auto operand : getOperands()) {
         result += operand;
     }
     return result;
