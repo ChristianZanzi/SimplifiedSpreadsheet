@@ -11,13 +11,11 @@
 #include <iostream>
 
 const double Cell::getValue() const {
-    return this->value;
+    return value;
 }
 
 void Cell::setValue(const double value) {
-    this->value = value;
-    //if(formula)
-     //   formula->setDefinition(" ");
+    Cell::value = value;
     notify();
 }
 
@@ -26,7 +24,7 @@ const std::list<std::shared_ptr<Cell>>& Cell::getDependencies() const {
 }
 
 void Cell::setDependencies(const std::list<std::shared_ptr<Cell>>& dependencies) {
-    this->dependencies = dependencies;
+    Cell::dependencies = dependencies;
 }
 
 void Cell::setFormula(int fType, std::list<std::shared_ptr<Cell>>& involvedCells, std::string f) {
@@ -36,7 +34,7 @@ void Cell::setFormula(int fType, std::list<std::shared_ptr<Cell>>& involvedCells
         cellsValues.push_back(involvedCell->getValue());
         involvedCell->subscribe(this);
     }
-    switch(fType){
+    switch(fType) {
         case 0:
             formula = std::make_shared<Sum>();
             formula->setDefinition(f);
@@ -62,13 +60,20 @@ void Cell::setFormula(int fType, std::list<std::shared_ptr<Cell>>& involvedCells
             setValue(formula->calculate());
             break;
         default:
-            std::cout << "errore";
+
             break;
     }
 }
 
-const std::shared_ptr<Formula>& Cell::getFormula() const{
+const std::shared_ptr<Formula>& Cell::getFormula() const {
     return formula;
+}
+
+void Cell::removeFormula() {
+    formula.reset();
+    for (const auto &observedCell : dependencies) {
+        observedCell->unsubscribe(this);
+    }
 }
 
 void Cell::subscribe(Observer* o) {
@@ -81,19 +86,15 @@ void Cell::unsubscribe(Observer* o) {
 
 void Cell::notify() {
     for (auto observer : observers) {
-        std::cout << "valore aggiornato " << value << std::endl;
         observer->update();
     }
 }
 
 void Cell::update() {
-    //setFormula(formula->getOperationType(), formula->getOperands()); // TODO capire come passare di nuovo il codice dell'operazione
-    //setValue(getValue());
-    if(formula) {
+    if (formula) {
         std::list<double> values;
-        for(auto dependency : getDependencies()){
-            std::cout << "valore usato per aggiornare " << dependency->getValue() << std::endl;
-            values.push_back(dependency->getValue());
+        for (const auto &observedCell : getDependencies()) {
+            values.push_back(observedCell->getValue());
         }
         formula->setOperands(values);
         setValue(formula->calculate());

@@ -15,4 +15,5 @@ public:
 
     virtual ~Subject() = default;
 };
+
 #endif //SIMPLIFIEDSPREADSHEET_SUBJECT_H

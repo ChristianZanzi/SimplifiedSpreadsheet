@@ -9,7 +9,7 @@ const std::list<double>& Formula::getOperands() const {
 }
 
 void Formula::setOperands(const std::list<double> &operands) {
-    this->operands = operands;
+    Formula::operands = operands;
 }
 
 const std::string &Formula::getDefinition() const {

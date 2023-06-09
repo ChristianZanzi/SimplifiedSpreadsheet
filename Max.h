@@ -13,5 +13,4 @@ public:
     double calculate() override;
 };
 
-
 #endif //SIMPLIFIEDSPREADSHEET_MAX_H

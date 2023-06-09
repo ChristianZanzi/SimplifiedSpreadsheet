@@ -12,6 +12,4 @@ public:
     virtual void update() = 0;
 };
 
-
-
 #endif //SIMPLIFIEDSPREADSHEET_OBSERVER_H

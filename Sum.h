@@ -10,8 +10,6 @@
 class Sum: public Formula {
 public:
     double calculate() override;
-
 };
-
 
 #endif //SIMPLIFIEDSPREADSHEET_SUM_H
