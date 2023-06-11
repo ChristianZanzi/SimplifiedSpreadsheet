@@ -5,7 +5,6 @@
 #ifndef SIMPLIFIEDSPREADSHEET_OBSERVER_H
 #define SIMPLIFIEDSPREADSHEET_OBSERVER_H
 
-
 class Observer {
 public:
     virtual ~Observer() = default;

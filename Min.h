@@ -5,7 +5,6 @@
 #ifndef SIMPLIFIEDSPREADSHEET_MIIN_H
 #define SIMPLIFIEDSPREADSHEET_MIIN_H
 
-
 #include "Formula.h"
 
 class Min: public Formula {

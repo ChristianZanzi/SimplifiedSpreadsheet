@@ -46,7 +46,7 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
     if (!parsedFormula.empty()) {
         fType = std::move(parsedFormula.front());
         parsedFormula.pop_front();
-        for (auto substring : parsedFormula) {
+        for (std::string substring : parsedFormula) {
             if (substring.size() == 2) {
                 r = substring[0] - CHAR_TO_NUMBER;
                 c = substring[1] - CHAR_TO_NUMBER;
@@ -104,17 +104,27 @@ std::list<std::string> Spreadsheet::parseFormulaString(std::string& formula) {
         if (formula[i] == COMMA) {
             endIndex = i;
             substr.append(formula, startIndex, endIndex - startIndex);
-            parsedFormula.push_back(substr);
+            if (!contains(parsedFormula, substr))
+                parsedFormula.push_back(substr);
             startIndex = i + 1;
             substr.clear();
         }
         if (i == formula.size() - 1) {
             endIndex = i;
             substr.append(formula, startIndex, endIndex);
-            parsedFormula.push_back(substr);
+            if (!contains(parsedFormula, substr))
+                parsedFormula.push_back(substr);
             startIndex = i + 1;
             substr.clear();
         }
     }
     return parsedFormula;
+}
+
+bool Spreadsheet::contains(std::list<std::string> list, std::string str) {
+    for (std::string el : list) {
+        if (el == str)
+            return true;
+    }
+    return false;
 }

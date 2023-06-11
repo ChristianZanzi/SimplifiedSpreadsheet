@@ -3,7 +3,6 @@
 //
 
 #include "Sum.h"
-#include <iostream>
 
 double Sum::calculate() {
     double result = 0;

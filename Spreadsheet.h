@@ -37,6 +37,8 @@ private:
     static const char EMPTY_SPACE = ' ';
     static const char COMMA = ',';
 
+    bool contains(std::list<std::string> list, std::string str);
+
 };
 
 #endif //SIMPLIFIEDSPREADSHEET_SPREADSHEET_H

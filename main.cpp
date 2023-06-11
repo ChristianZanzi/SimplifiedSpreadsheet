@@ -2,11 +2,11 @@
 // Created by Christian on 25/05/2023.
 //
 
+#include "Spreadsheet.h"
 #include <curses.h>
 #include <memory>
 #include <list>
 #include <iostream>
-#include "Spreadsheet.h"
 
 void drawSpreadsheet(const Spreadsheet& spreadsheet) {
     clear();
@@ -140,6 +140,7 @@ int main() {
 
         wclear(boxCurrent);
         box(boxCurrent, 0, 0);
+        box(boxInfo, 0, 0);
 
         if (valid) {
             double cellValue = spreadsheet.getCellValue(row, col);
@@ -152,6 +153,7 @@ int main() {
             valid = true;
         }
         wrefresh(boxCurrent);
+        wrefresh(boxInfo);
     }
 
     endwin();

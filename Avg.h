@@ -5,7 +5,6 @@
 #ifndef SIMPLIFIEDSPREADSHEET_AVG_H
 #define SIMPLIFIEDSPREADSHEET_AVG_H
 
-
 #include "Formula.h"
 
 class Avg: public Formula {

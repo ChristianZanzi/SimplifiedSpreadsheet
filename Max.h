@@ -5,7 +5,6 @@
 #ifndef SIMPLIFIEDSPREADSHEET_MAX_H
 #define SIMPLIFIEDSPREADSHEET_MAX_H
 
-
 #include "Formula.h"
 
 class Max: public Formula {

@@ -8,7 +8,6 @@
 #include "Min.h"
 #include "Avg.h"
 #include <vector>
-#include <iostream>
 
 const double Cell::getValue() const {
     return value;
