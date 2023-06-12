@@ -132,3 +132,9 @@ bool Spreadsheet::contains(std::list<std::string> list, std::string str) {
     }
     return false;
 }
+
+void Spreadsheet::clearCell(int row, int column){
+    matrix[row][column].removeFormula();
+    matrix[row][column].setValue(0);
+    matrix[row][column].setHasValue(false);
+}

@@ -9,5 +9,7 @@ double Avg::calculate() {
     for (double operand : getOperands()) {
             result += operand;
     }
+    if (getOperands().empty())
+        return 0;
     return result / getOperands().size();
 }

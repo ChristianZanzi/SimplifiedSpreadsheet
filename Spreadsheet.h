@@ -31,6 +31,8 @@ public:
 
     std::list<std::string> parseFormulaString(std::string& formula);
 
+    void clearCell(int row, int column);
+
 private:
     int rows;
     int columns;

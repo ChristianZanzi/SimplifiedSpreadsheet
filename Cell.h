@@ -15,11 +15,13 @@
 
 class Cell : public Subject, public Observer {
 public:
+    Cell() : value(0), hasValue(false) {}
     ~Cell() override = default;
 
     void setValue(double value);
     const double getValue() const;
     bool hasAssignedValue() const;
+    void setHasValue(bool hasValue);
 
     const std::list<std::shared_ptr<Cell>>& getDependencies() const;
     void setDependencies(const std::list<std::shared_ptr<Cell>>& dependencies);

@@ -122,6 +122,10 @@ void UserInterface::handleUserInput(int ch, int& row, int& col) {
                 check = formula;
             }
             break;
+        case 'c':
+            mvprintw(row + row + 1 + 1, col * 10 + 1, "        ");
+            spreadsheet.clearCell(row, col);
+            break;
         default:
             break;
     }
@@ -146,7 +150,7 @@ void UserInterface::run() {
         wclear(cellContentBox);
         box(cellContentBox, 0, 0);
         box(infoBox, 0, 0);
-        //TODO se una cella non ha valori assegnati non considerarla nella formula
+
         if (valid) {
             double cellValue = spreadsheet.getCellValue(row, col);
             mvwprintw(cellContentBox, 1, 1, "Value: %.2f", cellValue);

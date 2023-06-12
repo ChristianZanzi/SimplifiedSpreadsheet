@@ -32,10 +32,20 @@ TEST(Cell, SetFormulaAvgTest) {
     dep1->setValue(1);
     std::shared_ptr<Cell> dep2 = std::make_shared<Cell>();
     dep2->setValue(1);
+    std::shared_ptr<Cell> dep3 = std::make_shared<Cell>();
+    dep3->setValue(1);
     dependencies.push_back(dep1);
     dependencies.push_back(dep2);
-    const std::string formulaDefinition = "avg 00,01";
+    dependencies.push_back(dep3);
+    const std::string formulaDefinition = "avg 00,01,02";
     cell->setFormula(3, dependencies, formulaDefinition);
     EXPECT_TRUE(cell->getFormula() != nullptr);
     EXPECT_EQ(cell->getValue(), 1);
+}
+
+TEST(Cell, HasAssignedValueTest) {
+    std::shared_ptr<Cell> cell = std::make_shared<Cell>();
+    ASSERT_EQ(false, cell->hasAssignedValue());
+    cell->setValue(10);
+    ASSERT_EQ(true, cell->hasAssignedValue());
 }

@@ -22,6 +22,11 @@ bool Cell::hasAssignedValue() const {
     return hasValue;
 }
 
+void Cell::setHasValue(bool hasValue) {
+    Cell::hasValue = hasValue;
+    notify();
+}
+
 const std::list<std::shared_ptr<Cell>>& Cell::getDependencies() const {
     return dependencies;
 }
@@ -31,10 +36,12 @@ void Cell::setDependencies(const std::list<std::shared_ptr<Cell>>& dependencies)
 }
 
 void Cell::setFormula(int fType, std::list<std::shared_ptr<Cell>>& involvedCells, std::string f) {
+    removeFormula();
     std::list<double> cellsValues;
     setDependencies(involvedCells);
     for (auto &involvedCell : involvedCells) {
-        cellsValues.push_back(involvedCell->getValue());
+        if (involvedCell->hasAssignedValue())
+            cellsValues.push_back(involvedCell->getValue());
         involvedCell->subscribe(this);
     }
     switch(fType) {
@@ -43,24 +50,28 @@ void Cell::setFormula(int fType, std::list<std::shared_ptr<Cell>>& involvedCells
             formula->setDefinition(f);
             formula->setOperands(cellsValues);
             setValue(formula->calculate());
+            hasValue = true;
             break;
         case 1:
             formula = std::make_shared<Max>();
             formula->setDefinition(f);
             formula->setOperands(cellsValues);
             setValue(formula->calculate());
+            hasValue = true;
             break;
         case 2:
             formula = std::make_shared<Min>();
             formula->setDefinition(f);
             formula->setOperands(cellsValues);
             setValue(formula->calculate());
+            hasValue = true;
             break;
         case 3:
             formula = std::make_shared<Avg>();
             formula->setDefinition(f);
             formula->setOperands(cellsValues);
             setValue(formula->calculate());
+            hasValue = true;
             break;
         default:
 
@@ -97,7 +108,8 @@ void Cell::update() {
     if (formula) {
         std::list<double> values;
         for (const auto &observedCell : getDependencies()) {
-            values.push_back(observedCell->getValue());
+            if (observedCell->hasAssignedValue())
+                values.push_back(observedCell->getValue());
         }
         formula->setOperands(values);
         setValue(formula->calculate());
