@@ -23,6 +23,10 @@ int Spreadsheet::getColumns() const {
     return columns;
 }
 
+bool Spreadsheet::hasCellValue(int row, int column) const {
+    return matrix[row][column].hasAssignedValue();
+}
+
 void Spreadsheet::setColumns(int columns) {
     Spreadsheet::columns = columns;
 }

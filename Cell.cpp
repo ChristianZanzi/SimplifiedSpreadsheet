@@ -7,7 +7,6 @@
 #include "Max.h"
 #include "Min.h"
 #include "Avg.h"
-#include <vector>
 
 const double Cell::getValue() const {
     return value;
@@ -15,7 +14,12 @@ const double Cell::getValue() const {
 
 void Cell::setValue(const double value) {
     Cell::value = value;
+    hasValue = true;
     notify();
+}
+
+bool Cell::hasAssignedValue() const {
+    return hasValue;
 }
 
 const std::list<std::shared_ptr<Cell>>& Cell::getDependencies() const {

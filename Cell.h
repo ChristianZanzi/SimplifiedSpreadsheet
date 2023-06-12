@@ -19,6 +19,7 @@ public:
 
     void setValue(double value);
     const double getValue() const;
+    bool hasAssignedValue() const;
 
     const std::list<std::shared_ptr<Cell>>& getDependencies() const;
     void setDependencies(const std::list<std::shared_ptr<Cell>>& dependencies);
@@ -34,6 +35,7 @@ public:
 
 private:
     double value;
+    bool hasValue;
     std::shared_ptr<Formula> formula;
     std::list<std::shared_ptr<Cell>> dependencies;
     std::list<Observer*> observers;

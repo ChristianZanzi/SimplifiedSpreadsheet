@@ -3,9 +3,6 @@
 //
 
 #include "gtest/gtest.h"
-#include <mutex>
-#include <condition_variable>
-
 
 int main(int argc, char** argv) {
     ::testing::InitGoogleTest(&argc, argv);

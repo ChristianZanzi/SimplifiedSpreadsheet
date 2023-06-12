@@ -5,7 +5,9 @@
 #include "Min.h"
 
 double Min::calculate() {
-    double result;
+    if (getOperands().empty())
+        return 0;
+    double result = getOperands().front();
     for (double operand : getOperands()) {
         if (result > operand)
             result = operand;

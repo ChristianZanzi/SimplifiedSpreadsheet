@@ -21,6 +21,8 @@ public:
     int getColumns() const;
     void setColumns(int columns);
 
+    bool hasCellValue(int row, int column) const;
+
     void setCellValue(int row, int column, double value);
     double getCellValue(int row, int column) const;
 

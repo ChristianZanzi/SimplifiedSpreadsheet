@@ -28,10 +28,14 @@ TEST(Cell, SetFormulaSumTest) {
 TEST(Cell, SetFormulaAvgTest) {
     std::shared_ptr<Cell> cell = std::make_shared<Cell>();
     std::list<std::shared_ptr<Cell>> dependencies;
-    dependencies.push_back(std::make_shared<Cell>());
-    dependencies.push_back(std::make_shared<Cell>());
+    std::shared_ptr<Cell> dep1 = std::make_shared<Cell>();
+    dep1->setValue(1);
+    std::shared_ptr<Cell> dep2 = std::make_shared<Cell>();
+    dep2->setValue(1);
+    dependencies.push_back(dep1);
+    dependencies.push_back(dep2);
     const std::string formulaDefinition = "avg 00,01";
     cell->setFormula(3, dependencies, formulaDefinition);
     EXPECT_TRUE(cell->getFormula() != nullptr);
-    EXPECT_EQ(cell->getValue(), 0);
+    EXPECT_EQ(cell->getValue(), 1);
 }
