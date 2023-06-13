@@ -15,3 +15,13 @@ TEST(Spreadsheet, TestParseFormula) {
     parsedFormula.pop_front();
     ASSERT_EQ("01", parsedFormula.front());
 }
+
+TEST(Spreadsheet, TestHasCircularReference) {
+    Spreadsheet s(3, 3);
+
+    s.setCellFormula(0, 1, "sum 00,02");
+    ASSERT_EQ("sum 00,02", s.getCellFormula(0, 1));
+
+    s.setCellFormula(0, 2, "sum 00,01");
+    ASSERT_EQ("none", s.getCellFormula(0, 2));
+}

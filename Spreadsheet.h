@@ -17,10 +17,8 @@ public:
     ~Spreadsheet() = default;
 
     int getRows() const;
-    void setRows(int rows);
 
     int getColumns() const;
-    void setColumns(int columns);
 
     bool hasCellValue(int row, int column) const;
 
@@ -33,6 +31,8 @@ public:
     std::list<std::string> parseFormulaString(std::string& formula);
 
     void clearCell(int row, int column);
+
+    bool hasCircularReference(std::shared_ptr<Cell> observedCell, std::shared_ptr<Cell> observerCell);
 
 private:
     int rows;

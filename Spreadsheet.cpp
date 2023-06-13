@@ -17,20 +17,12 @@ int Spreadsheet::getRows() const {
     return rows;
 }
 
-void Spreadsheet::setRows(int rows) {
-    Spreadsheet::rows = rows;
-}
-
 int Spreadsheet::getColumns() const {
     return columns;
 }
 
 bool Spreadsheet::hasCellValue(int row, int column) const {
     return matrix[row][column]->hasAssignedValue();
-}
-
-void Spreadsheet::setColumns(int columns) {
-    Spreadsheet::columns = columns;
 }
 
 void Spreadsheet::setCellValue(int row, int column, double value) {
@@ -56,9 +48,11 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
             if (substring.size() == 2) {
                 parsedRow = substring[0] - CHAR_TO_NUMBER;
                 parsedColumn = substring[1] - CHAR_TO_NUMBER;
-                involvedCells.push_back(matrix[parsedRow][parsedColumn]);
-                if (parsedRow == row && parsedColumn == column)
+
+                if (hasCircularReference(matrix[parsedRow][parsedColumn], matrix[row][column]))
                     validFormula = false; //evita il riferimento ciclico
+                else
+                    involvedCells.push_back(matrix[parsedRow][parsedColumn]);
             }
             else
                 validFormula = false;
@@ -84,7 +78,7 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
         validFormula = false;
     }
 
-    if (validFormula)
+    if (validFormula && !involvedCells.empty())
         matrix[row][column]->setFormula(op, involvedCells, formula);
 }
 
@@ -139,4 +133,17 @@ void Spreadsheet::clearCell(int row, int column){
     matrix[row][column]->removeFormula();
     matrix[row][column]->setValue(0);
     matrix[row][column]->setHasValue(false);
+}
+
+bool Spreadsheet::hasCircularReference(std::shared_ptr<Cell> observedCell, std::shared_ptr<Cell> observerCell) {
+    if (observedCell == observerCell)
+        return true;
+    if (!observedCell->getDependencies().empty()) {
+        for (const auto &observedCellDependency: observedCell->getDependencies()) {
+            if (hasCircularReference(observedCellDependency, observerCell))
+                return true;
+        }
+    }
+
+    return false;
 }
