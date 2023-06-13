@@ -38,7 +38,7 @@ void UserInterface::drawSpreadsheet(const Spreadsheet& spreadsheet) {
 UserInterface::UserInterface(Spreadsheet& spreadsheet) : spreadsheet(spreadsheet),
             rows(spreadsheet.getRows()), cols(spreadsheet.getColumns()), value(0), valid(true) {
     setCellContentBox(4, 30, rows * 2 + 2, 0);
-    setInfoBox(7, 62, rows * 2 + 2, 40);
+    setInfoBox(10, 70, rows * 2 + 2, 30);
 
     wclear(cellContentBox);
     mvwprintw(cellContentBox, 1, 1, "Value: %.2f", value);
@@ -50,7 +50,10 @@ UserInterface::UserInterface(Spreadsheet& spreadsheet) : spreadsheet(spreadsheet
     mvwprintw(infoBox, 2, 1 , "Premi: ");
     mvwprintw(infoBox, 3, 1, "'s' per inserire un valore numerico");
     mvwprintw(infoBox, 4, 1, "'f' per inserire una formula");
-    mvwprintw(infoBox, 5, 1, "'q' per uscire");
+    mvwprintw(infoBox, 5, 1, "'c' per ripulire una cella");
+    mvwprintw(infoBox, 6, 1, "'q' per uscire");
+    mvwprintw(infoBox, 7, 1, "[Sintassi formula: <nome_operazione> <cella1>,<cella2>,...,<cellaN>]");
+    mvwprintw(infoBox, 8, 1, "[Es.: sum 00,01,02 (operazioni disponibili: sum,max,min,avg)]");
     box(infoBox, 0, 0);
 
     drawSpreadsheet(spreadsheet);
