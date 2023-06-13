@@ -5,7 +5,9 @@
 #include "Max.h"
 
 double Max::calculate() {
-    double result;
+    if (getOperands().empty())
+        return 0;
+    double result = getOperands().front();
     for (double operand : getOperands()) {
         if (result < operand)
             result = operand;

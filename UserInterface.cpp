@@ -73,61 +73,64 @@ void UserInterface::setInfoBox(int height, int width, int startY, int startX) {
 }
 
 void UserInterface::handleUserInput(int ch, int& row, int& col) {
-    switch (ch) {
-        case KEY_UP:
-            if (row > 0) {
-                row--;
-            }
-            break;
-        case KEY_DOWN:
-            if (row < rows - 1) {
-                row++;
-            }
-            break;
-        case KEY_LEFT:
-            if (col > 0) {
-                col--;
-            }
-            break;
-        case KEY_RIGHT:
-            if (col < cols - 1) {
-                col++;
-            }
-            break;
-        case 's':
-            mvprintw(row + row + 2, col * 10 + 1, "        ");
-            mvprintw(row + row + 2, col * 10 + 1, " > ");
-            echo();
-            char valueString[20];
-            getstr(valueString);
-            check = valueString;
-            noecho();
-            value = atof(valueString);   //atof, data una stringa di byte in ingresso restituisce un numero in virgola mobile.
-            if (check != "0" && !value)
-                valid = false;
-            else
-                spreadsheet.setCellValue(row, col, value);
-            break;
-        case 'f':
-            mvprintw(row + row + 1 + 1, col * 10 + 1, "        ");
-            mvprintw(row + row + 1 + 1, col * 10 + 1, " > ");
-            echo();
-            char formula[20];
-            getstr(formula);
-            noecho();
-            check = spreadsheet.getCellFormula(row, col);
-            spreadsheet.setCellFormula(row, col, formula);
-            if (spreadsheet.getCellFormula(row,col) ==  check || spreadsheet.getCellFormula(row,col) == "none") {
-                valid = false;
-                check = formula;
-            }
-            break;
-        case 'c':
-            mvprintw(row + row + 1 + 1, col * 10 + 1, "        ");
-            spreadsheet.clearCell(row, col);
-            break;
-        default:
-            break;
+    try {
+        switch (ch) {
+            case KEY_UP:
+                if (row > 0) {
+                    row--;
+                }
+                break;
+            case KEY_DOWN:
+                if (row < rows - 1) {
+                    row++;
+                }
+                break;
+            case KEY_LEFT:
+                if (col > 0) {
+                    col--;
+                }
+                break;
+            case KEY_RIGHT:
+                if (col < cols - 1) {
+                    col++;
+                }
+                break;
+            case 's':
+                mvprintw(row + row + 2, col * 10 + 1, "        ");
+                mvprintw(row + row + 2, col * 10 + 1, " > ");
+                echo();
+                char valueString[20];
+                getstr(valueString);
+                check = valueString;
+                noecho();
+                value = atof(valueString);   //atof, data una stringa di byte in ingresso restituisce un numero in virgola mobile.
+                if (check != "0" && !value)
+                    throw std::invalid_argument("Invalid value: " + check + " !");
+                else
+                    spreadsheet.setCellValue(row, col, value);
+                break;
+            case 'f':
+                mvprintw(row + row + 1 + 1, col * 10 + 1, "        ");
+                mvprintw(row + row + 1 + 1, col * 10 + 1, " > ");
+                echo();
+                char formula[20];
+                getstr(formula);
+                noecho();
+                check = spreadsheet.getCellFormula(row, col);
+                spreadsheet.setCellFormula(row, col, formula);
+                if (spreadsheet.getCellFormula(row, col) == check || spreadsheet.getCellFormula(row, col) == "none")
+                    throw std::invalid_argument("Invalid formula: " + std::string(formula) + " !");
+                break;
+            case 'c':
+                mvprintw(row + row + 1 + 1, col * 10 + 1, "        ");
+                spreadsheet.clearCell(row, col);
+                break;
+            default:
+                break;
+        }
+    } catch (const std::invalid_argument& e) {
+        valid = false;
+        check = e.what();
     }
 }
 
@@ -158,7 +161,7 @@ void UserInterface::run() {
             mvwprintw(cellContentBox, 2, 1, "Formula: %s", cellFormula.c_str());
         }
         else {
-            mvwprintw(cellContentBox, 1, 1, "Invalid Value %s !", check.c_str());
+            mvwprintw(cellContentBox, 1, 1, "%s", check.c_str());
             valid = true;
         }
         wrefresh(cellContentBox);

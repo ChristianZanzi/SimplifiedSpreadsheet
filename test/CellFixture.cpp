@@ -6,7 +6,6 @@
 #include "../Cell.h"
 #include <memory>
 
-// Test fixture for Cell class
 class CellSuite : public ::testing::Test {
 protected:
     void SetUp() override {

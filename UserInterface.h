@@ -8,6 +8,7 @@
 #include "Spreadsheet.h"
 #include <curses.h>
 #include <memory>
+#include <stdexcept>
 
 class UserInterface {
 public:

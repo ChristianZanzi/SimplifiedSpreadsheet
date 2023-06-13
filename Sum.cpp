@@ -5,6 +5,8 @@
 #include "Sum.h"
 
 double Sum::calculate() {
+    if (getOperands().empty())
+        return 0;
     double result = 0;
     for (auto operand : getOperands()) {
         result += operand;
