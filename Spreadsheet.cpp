@@ -4,10 +4,12 @@
 
 #include "Spreadsheet.h"
 
-Spreadsheet::Spreadsheet(int numRows, int numColumns): rows(numRows), columns(numColumns) {
-    matrix = std::make_unique<std::unique_ptr<Cell[]>[]>(rows);
+Spreadsheet::Spreadsheet(int numRows, int numColumns) : rows(numRows), columns(numColumns),
+        matrix(rows, std::vector<std::shared_ptr<Cell>>(columns)){
     for (int i = 0; i < rows; i++) {
-        matrix[i] = std::make_unique<Cell[]>(columns);
+        for (int j = 0; j < columns; j++) {
+            matrix[i][j] = std::make_shared<Cell>();
+        }
     }
 }
 
@@ -24,7 +26,7 @@ int Spreadsheet::getColumns() const {
 }
 
 bool Spreadsheet::hasCellValue(int row, int column) const {
-    return matrix[row][column].hasAssignedValue();
+    return matrix[row][column]->hasAssignedValue();
 }
 
 void Spreadsheet::setColumns(int columns) {
@@ -32,16 +34,16 @@ void Spreadsheet::setColumns(int columns) {
 }
 
 void Spreadsheet::setCellValue(int row, int column, double value) {
-    matrix[row][column].removeFormula();
-    matrix[row][column].setValue(value);
+    matrix[row][column]->removeFormula();
+    matrix[row][column]->setValue(value);
 }
 
 double Spreadsheet::getCellValue(int row, int column) const {
-    return matrix[row][column].getValue();
+    return matrix[row][column]->getValue();
 }
 
 void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
-    int r = 0, c = 0;
+    int parsedRow = 0, parsedColumn = 0;
     std::string fType;
     std::list<std::shared_ptr<Cell>> involvedCells;
     std::list<std::string> parsedFormula = parseFormulaString(formula);
@@ -52,10 +54,10 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
         parsedFormula.pop_front();
         for (std::string substring : parsedFormula) {
             if (substring.size() == 2) {
-                r = substring[0] - CHAR_TO_NUMBER;
-                c = substring[1] - CHAR_TO_NUMBER;
-                involvedCells.push_back(std::shared_ptr<Cell>(&matrix[r][c], [](Cell*) {}));
-                if (r == row && c == column)
+                parsedRow = substring[0] - CHAR_TO_NUMBER;
+                parsedColumn = substring[1] - CHAR_TO_NUMBER;
+                involvedCells.push_back(matrix[parsedRow][parsedColumn]);
+                if (parsedRow == row && parsedColumn == column)
                     validFormula = false; //evita il riferimento ciclico
             }
             else
@@ -83,12 +85,12 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
     }
 
     if (validFormula)
-        matrix[row][column].setFormula(op, involvedCells, formula);
+        matrix[row][column]->setFormula(op, involvedCells, formula);
 }
 
 std::string Spreadsheet::getCellFormula(int row, int column) const {
-    if (matrix[row][column].getFormula() != nullptr)
-        return matrix[row][column].getFormula()->getDefinition();
+    if (matrix[row][column]->getFormula() != nullptr)
+        return matrix[row][column]->getFormula()->getDefinition();
     return "none";
 }
 
@@ -134,7 +136,7 @@ bool Spreadsheet::contains(std::list<std::string> list, std::string str) {
 }
 
 void Spreadsheet::clearCell(int row, int column){
-    matrix[row][column].removeFormula();
-    matrix[row][column].setValue(0);
-    matrix[row][column].setHasValue(false);
+    matrix[row][column]->removeFormula();
+    matrix[row][column]->setValue(0);
+    matrix[row][column]->setHasValue(false);
 }

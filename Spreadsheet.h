@@ -7,6 +7,7 @@
 
 #include "Cell.h"
 #include <list>
+#include <vector>
 #include <string>
 #include <memory>
 
@@ -36,7 +37,7 @@ public:
 private:
     int rows;
     int columns;
-    std::unique_ptr<std::unique_ptr<Cell[]>[]> matrix;
+    std::vector<std::vector<std::shared_ptr<Cell>>> matrix;
     static const char CHAR_TO_NUMBER = '0';
     static const char EMPTY_SPACE = ' ';
     static const char COMMA = ',';
