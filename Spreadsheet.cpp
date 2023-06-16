@@ -22,16 +22,28 @@ int Spreadsheet::getColumns() const {
 }
 
 bool Spreadsheet::hasCellValue(int row, int column) const {
-    return matrix[row][column]->hasAssignedValue();
+    if (row >= 0 && row < rows && column >= 0 && column < columns) {
+        return matrix[row][column]->hasAssignedValue();
+    } else {
+        throw std::out_of_range("Index out of bounds");
+    }
 }
 
 void Spreadsheet::setCellValue(int row, int column, double value) {
-    matrix[row][column]->removeFormula();
-    matrix[row][column]->setValue(value);
+    if (row >= 0 && row < rows && column >= 0 && column < columns) {
+        matrix[row][column]->removeFormula();
+        matrix[row][column]->setValue(value);
+    } else {
+        throw std::out_of_range("Index out of bounds");
+    }
 }
 
 double Spreadsheet::getCellValue(int row, int column) const {
-    return matrix[row][column]->getValue();
+    if (row >= 0 && row < rows && column >= 0 && column < columns) {
+        return matrix[row][column]->getValue();
+    } else {
+        throw std::out_of_range("Index out of bounds");
+    }
 }
 
 void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
@@ -39,7 +51,13 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
     std::string fType;
     std::list<std::shared_ptr<Cell>> involvedCells;
     std::list<std::string> parsedFormula = parseFormulaString(formula);
-    bool validFormula = true;
+    bool validFormula;
+
+    if (row >= 0 && row < rows && column >= 0 && column < columns) {
+        validFormula = true;
+    } else {
+        throw std::out_of_range("Index out of bounds");
+    }
 
     if (!parsedFormula.empty()) {
         fType = std::move(parsedFormula.front());
@@ -86,9 +104,13 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
 }
 
 std::string Spreadsheet::getCellFormula(int row, int column) const {
-    if (matrix[row][column]->getFormula() != nullptr)
-        return matrix[row][column]->getFormula()->getDefinition();
-    return "none";
+    if (row >= 0 && row < rows && column >= 0 && column < columns) {
+        if (matrix[row][column]->getFormula() != nullptr)
+            return matrix[row][column]->getFormula()->getDefinition();
+        return "none";
+    } else {
+        throw std::out_of_range("Index out of bounds");
+    }
 }
 
 std::list<std::string> Spreadsheet::parseFormulaString(std::string& formula) {
