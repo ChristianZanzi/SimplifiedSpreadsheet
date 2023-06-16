@@ -4,7 +4,7 @@
 
 #include "UserInterface.h"
 
-void UserInterface::drawSpreadsheet(const Spreadsheet& spreadsheet) {
+void UserInterface::drawSpreadsheet(const Spreadsheet& spreadsheet) const {
     clear();
 
     int rows = spreadsheet.getRows();

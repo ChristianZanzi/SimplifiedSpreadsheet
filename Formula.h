@@ -20,7 +20,7 @@ public:
 
     virtual double calculate() = 0;
 
-private:
+protected:
     std::string definition;
     std::list<double> operands;
 };

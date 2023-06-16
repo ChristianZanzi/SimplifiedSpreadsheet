@@ -19,7 +19,7 @@ public:
     ~Cell() override = default;
 
     void setValue(double value);
-    const double getValue() const;
+    double getValue() const;
     bool hasAssignedValue() const;
     void setHasValue(bool hasValue);
 

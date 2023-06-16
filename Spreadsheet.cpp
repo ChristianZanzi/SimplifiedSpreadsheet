@@ -49,7 +49,10 @@ void Spreadsheet::setCellFormula(int row, int column, std::string formula) {
                 parsedRow = substring[0] - CHAR_TO_NUMBER;
                 parsedColumn = substring[1] - CHAR_TO_NUMBER;
 
-                if (hasCircularReference(matrix[parsedRow][parsedColumn], matrix[row][column]))
+                if (parsedRow > rows || parsedColumn > columns) {
+                    validFormula = false;
+                }
+                else if (hasCircularReference(matrix[parsedRow][parsedColumn], matrix[row][column]))
                     validFormula = false; //evita il riferimento ciclico
                 else
                     involvedCells.push_back(matrix[parsedRow][parsedColumn]);

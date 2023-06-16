@@ -19,7 +19,7 @@ public:
 
     void setInfoBox(int height, int width, int startY, int startX);
 
-    void drawSpreadsheet(const Spreadsheet& spreadsheet);
+    void drawSpreadsheet(const Spreadsheet& spreadsheet) const;
 
     void handleUserInput(int ch, int& row, int& col);
 

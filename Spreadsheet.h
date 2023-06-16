@@ -43,7 +43,7 @@ private:
     static const char COMMA = ',';
 
     bool contains(std::list<std::string> list, std::string str);
-
+    //TODO controllare la costanza,
 };
 
 #endif //SIMPLIFIEDSPREADSHEET_SPREADSHEET_H

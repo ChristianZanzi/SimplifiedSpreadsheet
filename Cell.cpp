@@ -8,7 +8,7 @@
 #include "Min.h"
 #include "Avg.h"
 
-const double Cell::getValue() const {
+double Cell::getValue() const {
     return value;
 }
 

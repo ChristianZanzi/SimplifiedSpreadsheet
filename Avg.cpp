@@ -6,7 +6,7 @@
 
 double Avg::calculate() {
     double result;
-    for (double operand : getOperands()) {
+    for (double operand : operands) {
             result += operand;
     }
     if (getOperands().empty())
